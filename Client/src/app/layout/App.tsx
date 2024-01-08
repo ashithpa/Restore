@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import Header from "./Header";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 // const products = [
 //   { name: "product1", price: 100 },
 //   { name: "product2", price: 200 },
@@ -37,7 +38,8 @@ function App() {
       <Header ChangeTheme={ChangeTheme} darkMode={darkMode}></Header>
 
       <Container>
-        <Catalog></Catalog>
+        {/* <Catalog></Catalog> */}
+        <Outlet></Outlet>
       </Container>
     </ThemeProvider>
     // </>
