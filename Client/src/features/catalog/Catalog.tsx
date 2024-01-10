@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/products";
 import ProductList from "./ProductList";
 import { useState, useEffect } from "react";
+import { Button } from "@mui/material";
 
 export default function Catalog() {
   const [products, SetProducts] = useState<Product[]>([]);
