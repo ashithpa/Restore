@@ -12,15 +12,20 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Delete, Remove } from "@mui/icons-material";
-import { useStoreContext } from "../../app/context/StoreContext";
+// import { useStoreContext } from "../../app/context/StoreContext";
 import { useState } from "react";
 import agent from "../../app/api/agent";
 import { LoadingButton } from "@mui/lab";
 import BasketSummary from "./basketSummary";
 import { Link } from "react-router-dom";
+import { useAppSelector, useAppdispatch } from "../../app/store/configureStore";
+import { removeItem, setBasket } from "./basketSlice";
 
 export default function BasketPage() {
-  const { basket, setBasket, removeItem } = useStoreContext();
+  // const { basket, setBasket, removeItem } = useStoreContext();
+  const { basket } = useAppSelector((state) => state.basket);
+  const dispatch = useAppdispatch();
+
   const [status, setStatus] = useState({
     loading: false,
     name: "",
@@ -29,7 +34,7 @@ export default function BasketPage() {
   function handleAddItem(productId: number, name: string) {
     setStatus({ loading: true, name });
     agent.Basket.addItem(productId)
-      .then((basket) => setBasket(basket))
+      .then((basket) => dispatch(setBasket(basket)))
       .catch((error) => console.log(error))
       .finally(() => setStatus({ loading: false, name: "" }));
   }
@@ -38,7 +43,7 @@ export default function BasketPage() {
     // debugger;
     setStatus({ loading: true, name });
     agent.Basket.removeItem(productId, quantity)
-      .then(() => removeItem(productId, quantity))
+      .then(() => dispatch(removeItem({ productId, quantity })))
       .catch((error) => console.log(error))
       .finally(() => setStatus({ loading: false, name: "" }));
   }
@@ -130,7 +135,7 @@ export default function BasketPage() {
                     onClick={() =>
                       handleRemoveItem(
                         item.productId,
-                        1,
+                        item.quantity,
                         "del" + item.productId
                       )
                     }
