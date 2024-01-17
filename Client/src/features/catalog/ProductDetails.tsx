@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../../app/models/products";
-import agent from "../../app/api/agent";
 import Notfound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 // import { useStoreContext } from "../../app/context/StoreContext";
@@ -21,17 +19,21 @@ import { useAppSelector, useAppdispatch } from "../../app/store/configureStore";
 import {
   addBasketItemAsync,
   removeBasketItemAsync,
-  // setBasket,
 } from "../basket/basketSlice";
+import {  fetchProductAsync, productSelectors } from "./catalogSlice";
 
 export default function ProductDetails() {
   // const { basket, setBasket, removeItem } = useStoreContext();
   const { basket, status } = useAppSelector((state) => state.basket);
   const dispatch = useAppdispatch();
-
   const { id } = useParams<{ id: string }>();
-  const [product, SetProduct] = useState<Product | null>(null);
-  const [loading, setLoadding] = useState(true);
+  // const [product, SetProduct] = useState<Product | null>(null);
+  const product = useAppSelector((state) =>
+    productSelectors.selectById(state, id)
+  );
+  const{status : productStatus} = useAppSelector(state => state.catalog);
+
+  // const [loading, setLoadding] = useState(true);
   const [quantity, setQuantity] = useState(0);
   // const [submitting, setSubmitting] = useState(false);
   const item = basket?.items.find((i) => i.productId === product?.id);
@@ -47,12 +49,8 @@ export default function ProductDetails() {
   useEffect(() => {
     // debugger;
     if (item) setQuantity(item.quantity);
-    id &&
-      agent.Catalog.details(parseInt(id))
-        .then((response) => SetProduct(response))
-        .catch((error) => console.log(error))
-        .finally(() => setLoadding(false));
-  }, [id, item]);
+    if (!product) dispatch(fetchProductAsync(parseInt(id)));
+  }, [id, item, dispatch, product]);
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     if (parseInt(event.currentTarget.value) >= 0) {
@@ -92,7 +90,7 @@ export default function ProductDetails() {
     }
   }
 
-  if (loading) return <LoadingComponent></LoadingComponent>;
+  if (productStatus.includes('pending')) return <LoadingComponent></LoadingComponent>;
   // if (loading) return <h3>loading... </h3>;
   if (!product) return <Notfound></Notfound>;
 
@@ -153,7 +151,7 @@ export default function ProductDetails() {
               disabled={
                 item?.quantity === quantity || (!item && quantity === 0)
               }
-              loading={status.includes("pendingRemoveItem" + product.id)}
+              loading={status.includes("pending")}
               onClick={handleUpdateCart}
               sx={{ height: "55px" }}
               color="primary"

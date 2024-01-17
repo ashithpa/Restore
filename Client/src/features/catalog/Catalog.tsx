@@ -1,12 +1,16 @@
-import agent from "../../app/api/agent";
+import { useAppSelector, useAppdispatch } from "../../app/store/configureStore";
+import { useEffect } from "react";
+import { fetchProductsAsync, productSelectors } from "./catalogSlice";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Product } from "../../app/models/products";
 import ProductList from "./ProductList";
-import { useState, useEffect } from "react";
 
 export default function Catalog() {
-  const [products, SetProducts] = useState<Product[]>([]);
-  const [loading, SetLoading] = useState(true);
+  // const [products, SetProducts] = useState<Product[]>([]);
+  // const [loading, SetLoading] = useState(true);
+
+  const products = useAppSelector(productSelectors.selectAll);
+  const { productsLoaded, status } = useAppSelector((state) => state.catalog);
+  const dispatch = useAppdispatch();
 
   // useEffect(() => {
   //   fetch("http://localhost:5000/api/Products")
@@ -15,13 +19,14 @@ export default function Catalog() {
   // }, []);
 
   useEffect(() => {
-    agent.Catalog.list()
-      .then((products) => SetProducts(products))
-      .catch((error) => console.log(error))
-      .finally(() => SetLoading(false));
-  }, []);
+    if (!productsLoaded) dispatch(fetchProductsAsync());
+    // agent.Catalog.list(
+    //   .then((products) => SetProducts(products))
+    //   .catch((error) => console.log(error))1
+    //   .finally(() => SetLoading(false));
+  }, [dispatch, productsLoaded]);
 
-  if (loading) return <LoadingComponent></LoadingComponent>;
+  if (status.includes('pending')) return <LoadingComponent></LoadingComponent>;
 
   // function addProducts() {
   //   // SetProducts([...products, {name:"product3", price:500}])
