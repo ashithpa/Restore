@@ -11,12 +11,19 @@ import BasketPage from "../../features/basket/basketPage";
 import CheckoutPage from "../../features/checkout/checkoutPage";
 import Login from "../../features/account/login";
 import Register from "../../features/account/register";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
     children: [
+      {
+        element: <RequireAuth></RequireAuth>,
+        children: [
+          { path: "checkout", element: <CheckoutPage></CheckoutPage> },
+        ],
+      },
       { path: "", element: <HomePage></HomePage> },
       { path: "catalog", element: <Catalog></Catalog> },
       { path: "catalog/:id", element: <ProductDetails></ProductDetails> },
@@ -25,7 +32,6 @@ export const router = createBrowserRouter([
       { path: "server-error", element: <ServerError></ServerError> },
       { path: "not-found", element: <Notfound></Notfound> },
       { path: "basket", element: <BasketPage></BasketPage> },
-      { path: "checkout", element: <CheckoutPage></CheckoutPage> },
       { path: "login", element: <Login></Login> },
       { path: "register", element: <Register></Register> },
       { path: "*", element: <Navigate replace to="/not-found"></Navigate> },
