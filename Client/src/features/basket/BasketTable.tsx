@@ -23,7 +23,6 @@ export default function BasketTable({ items, isBasket = true }: Props) {
   console.log(items);
   const { status } = useAppSelector((state) => state.basket);
   const dispatch = useAppdispatch();
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -46,8 +45,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                 <h1></h1>
                 <Box display="flex" alignItems="center">
                   <img
-                  // src="/Client/public/images/hero1.jpg"
-                    src={item.pictureURL}
+                    src={item.pictureUrl}
                     alt={item.name}
                     style={{ height: 50, marginRight: 20 }}
                   ></img>
