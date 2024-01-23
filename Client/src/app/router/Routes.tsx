@@ -9,9 +9,10 @@ import ServerError from "../errors/ServerError";
 import Notfound from "../errors/NotFound";
 import BasketPage from "../../features/basket/basketPage";
 import CheckoutPage from "../../features/checkout/checkoutPage";
-import Login from "../../features/account/login";
-import Register from "../../features/account/register";
+import Login from "../../features/account/Login";
+import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
+import Orders from "../../features/orders/Orders";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
         element: <RequireAuth></RequireAuth>,
         children: [
           { path: "checkout", element: <CheckoutPage></CheckoutPage> },
+          { path: "orders", element: <Orders></Orders> },
         ],
       },
       { path: "", element: <HomePage></HomePage> },
