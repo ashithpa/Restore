@@ -5,8 +5,8 @@ import {
 } from "@reduxjs/toolkit";
 import { Product, ProductParams } from "../../app/models/products";
 import agent from "../../app/api/agent";
-import { RootState } from "@reduxjs/toolkit/query";
 import { MetaData } from "../../app/models/Pagination";
+import { RootState } from "../../app/store/configureStore";
 
 interface CatalogState {
   productsLoaded: boolean;
@@ -40,7 +40,7 @@ function getAxiosParams(productParams: ProductParams) {
     params.append("searchTerm", productParams.searchTerm);
   if (productParams.brands?.length > 0)
     params.append("brands", productParams.brands.toString());
-  if (productParams.types?.length>0)
+  if (productParams.types?.length > 0)
     params.append("types", productParams.types.toString());
 
   return params;
@@ -49,7 +49,7 @@ function getAxiosParams(productParams: ProductParams) {
 export const fetchProductsAsync = createAsyncThunk<
   Product[],
   void,
-  { state: RootState }
+  { state: any }
 >("catalog/fetchProductsAsync", async (_, thunkAPI) => {
   const params = getAxiosParams(thunkAPI.getState().catalog.productParams);
   try {

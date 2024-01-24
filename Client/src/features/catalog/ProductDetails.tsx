@@ -20,7 +20,7 @@ import {
   addBasketItemAsync,
   removeBasketItemAsync,
 } from "../basket/basketSlice";
-import {  fetchProductAsync, productSelectors } from "./catalogSlice";
+import { fetchProductAsync, productSelectors } from "./catalogSlice";
 
 export default function ProductDetails() {
   // const { basket, setBasket, removeItem } = useStoreContext();
@@ -29,9 +29,9 @@ export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
   // const [product, SetProduct] = useState<Product | null>(null);
   const product = useAppSelector((state) =>
-    productSelectors.selectById(state, id)
+    productSelectors.selectById(state, Number(id))
   );
-  const{status : productStatus} = useAppSelector(state => state.catalog);
+  const { status: productStatus } = useAppSelector((state) => state.catalog);
 
   // const [loading, setLoadding] = useState(true);
   const [quantity, setQuantity] = useState(0);
@@ -49,7 +49,7 @@ export default function ProductDetails() {
   useEffect(() => {
     // debugger;
     if (item) setQuantity(item.quantity);
-    if (!product) dispatch(fetchProductAsync(parseInt(id)));
+    if (!product) dispatch(fetchProductAsync(Number(id)));
   }, [id, item, dispatch, product]);
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -90,7 +90,8 @@ export default function ProductDetails() {
     }
   }
 
-  if (productStatus.includes('pending')) return <LoadingComponent></LoadingComponent>;
+  if (productStatus.includes("pending"))
+    return <LoadingComponent></LoadingComponent>;
   // if (loading) return <h3>loading... </h3>;
   if (!product) return <Notfound></Notfound>;
 

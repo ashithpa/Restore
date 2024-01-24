@@ -17,7 +17,7 @@ interface Props {
 export default function BasketSummary({ subtotal }: Props) {
   // const { basket } = useStoreContext();
   const { basket } = useAppSelector((state) => state.basket);
-  console.log(subtotal);
+  // console.log(subtotal);
   if (subtotal === undefined)
   subtotal =
       basket?.items.reduce(

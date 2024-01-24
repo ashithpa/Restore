@@ -121,6 +121,7 @@ export default function Catalog() {
           </FormGroup>   */}
           <CheckboxButtons
             items={types}
+            // checked={productParams.types}
             checked={productParams.types}
             onChange={(items: string[]) =>
               dispatch(setProductParams({ types: items }))

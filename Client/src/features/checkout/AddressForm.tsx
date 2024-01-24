@@ -75,7 +75,7 @@ export default function AddressForm() {
           <AppCheckbox
             name="saveAddress"
             label="Save this as the default address"
-            controlled={control}
+            control={control}
             disabled={!formState.isDirty}
           ></AppCheckbox>
         </Grid>

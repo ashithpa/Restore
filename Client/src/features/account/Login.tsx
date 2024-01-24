@@ -1,11 +1,10 @@
 import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Paper } from "@mui/material";
+import { Paper, TextField } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
@@ -70,7 +69,8 @@ export default function Login() {
           autoFocus
           {...register("username", { required: "User Name is required" })}
           error={!!errors.username}
-          helperText={errors?.username?.message}
+          // helperText={errors?.username?.message}
+          helperText={errors.username && errors.username.message?.toString()}
         />
         <TextField
           margin="normal"
@@ -80,7 +80,8 @@ export default function Login() {
           autoComplete="current-password"
           {...register("password", { required: "Password is required" })}
           error={!!errors.password}
-          helperText={errors?.password?.message}
+          // helperText={errors?.password?.message}
+          helperText={errors.password && errors.password.message?.toString()}
         />
         {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

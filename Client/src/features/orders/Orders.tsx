@@ -33,7 +33,7 @@ export default function Orders() {
   if (selectedOrderNumber > 0)
     return (
       <OrderDetailed
-        order={orders?.find((o) => o.id === selectedOrderNumber)}
+      order={orders?.find(o => o.id === selectedOrderNumber)!}
         setSelectedOrder={setSelectedOrderNumber}
       ></OrderDetailed>
     );

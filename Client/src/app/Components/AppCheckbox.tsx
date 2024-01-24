@@ -3,7 +3,7 @@ import { UseControllerProps, useController } from "react-hook-form";
 
 interface Props extends UseControllerProps {
   label: string;
-  disable: boolean;
+  disabled: boolean;
 }
 
 export default function AppCheckbox(props: Props) {

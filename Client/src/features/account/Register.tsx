@@ -80,7 +80,7 @@ export default function Register() {
           autoFocus
           {...register("username", { required: "User Name is required" })}
           error={!!errors.username}
-          helperText={errors?.username?.message}
+          helperText={errors.username && errors.username.message?.toString()}
         />
         <TextField
           margin="normal"
@@ -95,8 +95,10 @@ export default function Register() {
             },
           })}
           error={!!errors.email}
-          helperText={errors?.email?.message}
-        />
+          //  helperText={errors?.email?.message}
+          //helperText={`${errors?.email?.message}`}
+          helperText={errors.email && errors.email.message?.toString()}
+        />email
         <TextField
           margin="normal"
           fullWidth
@@ -112,7 +114,8 @@ export default function Register() {
             },
           })}
           error={!!errors.password}
-          helperText={errors?.password?.message}
+          // helperText={errors?.password?.message}
+          helperText={errors.password && errors.password.message?.toString()}
         />
         {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
