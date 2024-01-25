@@ -12,7 +12,7 @@ import {
 import Switch from "@mui/material/Switch";
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
-import SignedInMenu from "./signedInMenu";
+import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
   { title: "catalog", path: "/catalog" },
